@@ -1,22 +1,35 @@
 {% load static %}
 
-{% for post in posts|dictsortreversed:'id' %}
-  <hr>
-  <article>
+{% for post in page_obj %}
+  <article class="mb-5">
+    <hr>
     <ul>
       <li>
-        Место: {{ post.location }}              
+        Место: {{ post.location.name|default:"Планета Земля" }}               
       </li>
       <li>
-        Дата: {{ post.date }} 
+        Дата: {{ post.pub_date|date:"d E Y" }} 
       </li>
       <li>
-        Категория: <a href="{% url 'blog:category_posts' post.category %}">{{ post.category }} </a>
+        Категория: 
+        <a href="{% url 'blog:category_posts' post.category.slug %}">
+          {{ post.category.title }}
+        </a>
       </li>
-    </ul>     
-    <p>
-      {{ post.text|truncatewords:10 }}
+      <li>
+        Автор: 
+        <a href="{% url 'blog:profile' post.author.username %}">
+          {{ post.author.get_full_name|default:post.author.username }}
+        </a>
+      </li>
+    </ul>      
+    
+    <h2>{{ post.title }}</h2> <p>
+      {{ post.text|truncatewords:20 }}
     </p>
+    
     <a href="{% url 'blog:post_detail' post.id %}">Читать полный текст</a>
   </article>
 {% endfor %}
+
+{% include "includes/paginator.html" %}

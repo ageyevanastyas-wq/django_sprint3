@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Профиль пользователя {{ profile.username }}
+{% endblock %}
+
+{% block content %}
+  <div class="container py-5">
+    <h1>Профиль пользователя {{ profile.username }}</h1>
+    <ul>
+      <li>Имя: {{ profile.first_name }}</li>
+      <li>Фамилия: {{ profile.last_name }}</li>
+    </ul>
+    
+    {% if profile == user %}
+      <a href="{% url 'blog:edit_profile' %}">Редактировать профиль</a>
+    {% endif %}
+    
+    <hr>
+    
+    <h2>Публикации пользователя</h2>
+    {# Пункт 7: Здесь сработает наша пагинация из posts_list.html #}
+    {% include "includes/posts_list.html" %}
+  </div>
+{% endblock %}

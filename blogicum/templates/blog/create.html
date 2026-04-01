@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+  {% if is_edit %} Редактирование публикации {% else %} Новая публикация {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="card col-md-8 p-3 my-5 offset-md-2">
+    <div class="card-header">
+      {% if is_edit %} Редактировать публикацию {% else %} Добавить публикацию {% endif %}
+    </div>
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary">
+          {% if is_edit %} Сохранить {% else %} Опубликовать {% endif %}
+        </button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
