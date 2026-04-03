@@ -13,7 +13,22 @@ SECRET_KEY = 'django-insecure-xn5)z4fdefk$^j!_&-!xukk-d@@eprv!nes2l_wp5f2=6_!l(a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+]
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
+LOGIN_REDIRECT_URL = 'blog:index'
+
+LOGIN_URL = 'login'
+
+CSRF_FAILURE_VIEW = 'pages.views.csrf_failure'
 
 # Application definition
 
@@ -30,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
     'pages.apps.PagesConfig',
+    'django_bootstrap5',
 ]
 
 MIDDLEWARE = [

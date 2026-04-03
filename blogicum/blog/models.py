@@ -52,6 +52,7 @@ class Post(BaseModel):
         help_text='Если установить дату и время в будущем — '
                   'можно делать отложенные публикации.'
     )
+    image = models.ImageField('Фото', upload_to='posts_images', blank=True)
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -76,29 +77,23 @@ class Post(BaseModel):
     class Meta:
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
-        ordering = ['-pub_date']
+
 
 class Comment(models.Model):
     text = models.TextField('Текст комментария')
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
+        verbose_name='Комментарий',
         related_name='comments',
-        verbose_name='Пост',
     )
-    author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='comments',
-        verbose_name='Автор',
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Добавлено',
-    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ('created_at',)
         verbose_name = 'комментарий'
         verbose_name_plural = 'Комментарии'
+        ordering = ('created_at',)
 
+    def __str__(self) -> str:
+        return self.text
